@@ -1,12 +1,9 @@
 import 'dart:async';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:quran_kareem/presentation/screens/first_screen.dart';
 import 'package:quran_kareem/presentation/widgets/background_container.dart';
-import 'package:quran_kareem/presentation/widgets/custom_animated_text.dart';
 import 'package:quran_kareem/presentation/widgets/custom_text.dart';
 
-import 'home_screen.dart';
 
 class DailyRoutine extends StatefulWidget {
   static const routeName = '/DailyRoutine';
@@ -71,45 +68,41 @@ class _DailyRoutineState extends State<DailyRoutine> {
              const SizedBox(
                 height: 15,
               ),
-              if (currentIndex == 0 || currentIndex == 100)
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    IconButton(
-                      iconSize: deviceWidth < 370 ? 20 : 30,
-                      onPressed: () {
-                        Navigator.of(context).pushReplacementNamed(
-                          HomeScreen.routeName,
-                        );
-                      },
-                      icon: const Icon(
-                        Icons.arrow_back,
-                        color: Colors.white,
-                      ),
-                    ),
-                    Spacer(),
-                    if (_counter != 0)
-                      Center(
-                        child: customAnimatedText(
-                          width: deviceWidth * 0.85,
-                          height: deviceHeight * 0.08,
-                          text: 'اضفط بدأ لتستغفر ١٠٠ مره في ١٠٠ ثانيه',
-                          context: context,
-                          fontSize: deviceWidth * 0.05,
-                        ),
-                      ),
-                    Spacer(),
-                  ],
-                ),
+              // if (currentIndex == 0 || currentIndex == 100)
+              //   Row(
+              //     mainAxisAlignment: MainAxisAlignment.center,
+              //     children: [
+              //       IconButton(
+              //         iconSize: deviceWidth < 370 ? 20 : 30,
+              //         onPressed: () {
+              //           Navigator.of(context).pop();
+              //         },
+              //         icon: const Icon(
+              //           Icons.arrow_back,
+              //           color: Colors.white,
+              //         ),
+              //       ),
+              //       Spacer(),
+              //       if (_counter != 0)
+              //         Center(
+              //           child: customAnimatedText(
+              //             width: deviceWidth * 0.85,
+              //             height: deviceHeight * 0.08,
+              //             text: 'اضفط بدأ لتستغفر ١٠٠ مره في ١٠٠ ثانيه',
+              //             context: context,
+              //             fontSize: deviceWidth * 0.05,
+              //           ),
+              //         ),
+              //       Spacer(),
+              //     ],
+              //   ),
               _counter != 0
                   ? CustomText(
                       text: '  ستبدأ بعد ${_counter.toString()}  ثانيه',
                       fontSize: deviceWidth * 0.06,
                       fontWeight: FontWeight.bold,
                       color: Colors.white)
-                  : Container(
-                      height: deviceWidth * 0.06,
-                    ),
+                  : Container(),
               const SizedBox(
                 height: 15,
               ),
@@ -139,7 +132,7 @@ class _DailyRoutineState extends State<DailyRoutine> {
                       return itemIndex == 100
                           ? const Center(
                               child: const Text(
-                                'تهانينا لك,لقد اكملت 100 استغفار',
+                                ' تهانينا لك,لقد اكملت 100 استغفاراليوم',
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 20,

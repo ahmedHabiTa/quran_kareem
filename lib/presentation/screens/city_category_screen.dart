@@ -6,7 +6,7 @@ import 'package:quran_kareem/data/city_data.dart';
 import 'package:quran_kareem/presentation/screens/praying_time_table.dart';
 import 'package:quran_kareem/presentation/widgets/custom_animated_text.dart';
 
-import 'first_screen.dart';
+import 'azkar_screen.dart';
 import 'home_screen.dart';
 
 class CityArguments {
@@ -48,84 +48,65 @@ class CityCategoryScreen extends StatelessWidget {
                const SizedBox(
                   height: 15,
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    IconButton(
-                      iconSize: deviceWidth < 370 ? 20 : 30,
-                      onPressed: () {
-                        Navigator.of(context).pushReplacementNamed(
-                          HomeScreen.routeName,
-                        );
-                      },
-                      icon: Icon(
-                        Icons.arrow_back,
-                        color: Colors.white,
-                      ),
-                    ),
-                    Spacer(),
-                    Container(
-                      width: deviceWidth * 0.6,
-                      child: customAnimatedText(
-                          fontSize: deviceWidth * 0.05,
-                          height: deviceHeight * 0.05,
-                          width: deviceWidth,
-                          text: 'اختر مدينتك',
-                          context: context),
-                    ),
-                    Spacer(),
-                  ],
-                ),
                 Container(
-                  child: GridView.count(
-                    shrinkWrap: true,
-                    physics: NeverScrollableScrollPhysics(),
-                    childAspectRatio: deviceHeight * 1.2 / deviceWidth * 0.9,
-                    children: List.generate(city.cityConverter.length, (index) {
-                      return Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Card(
-                          shape: RoundedRectangleBorder(
-                            side: BorderSide(color: Colors.white, width: 1.0),
-                            borderRadius: BorderRadius.circular(25),
-                          ),
-                            color: Colors.black54,
-                          elevation: 5,
-                          shadowColor: Colors.black12,
-                          child: GestureDetector(
-                            onTap: () async {
-                              var connectionState =
-                                  await Connectivity().checkConnectivity();
-                              if (connectionState == ConnectivityResult.none) {
-                                Constants.get(context)
-                                    .showToast('خطأ الاتصال بالانترنت');
-                              }else{
-                                Navigator.of(context).pushReplacementNamed(
-                                  PrayTimes.routeName,
-                                  arguments: CityArguments(
-                                      cityArabic: city.cityConverter[index]['ar'],
-                                      cityEnglish: city.cityConverter[index]
-                                      ['en']),
-                                );
-                              }
-                            },
-                            child: Container(
-                              child: Center(
-                                child: Text(
-                                  '${city.cityConverter[index]['ar']}',
-                                  style: TextStyle(
-                                    fontSize: deviceWidth * 0.045,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      );
-                    }),
-                    crossAxisCount: 2,
-                  ),
+                  width: deviceWidth * 0.6,
+                  child: customAnimatedText(
+                      fontSize: deviceWidth * 0.05,
+                      height: deviceHeight * 0.05,
+                      width: deviceWidth,
+                      text: 'اختر مدينتك',
+                      context: context),
+                ),
+                ListView.builder(
+                  physics: NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  itemCount: city.cityConverter.length,
+                 itemBuilder: (context,index){
+                   return Padding(
+                     padding: const EdgeInsets.all(8.0),
+                     child: GestureDetector(
+                       onTap: ()async{
+                         var connectionState =
+                             await Connectivity().checkConnectivity();
+                         if (connectionState == ConnectivityResult.none) {
+                           Constants.get(context)
+                               .showToast(msg:'خطأ الاتصال بالانترنت');
+                         }else{
+                           Navigator.of(context).pushNamed(
+                             PrayTimes.routeName,
+                             arguments: CityArguments(
+                                 cityArabic: city.cityConverter[index]['ar'],
+                                 cityEnglish: city.cityConverter[index]
+                                 ['en']),
+                           );
+                         }
+                       },
+                       child: Container(
+                         height: 50,
+                         child: Card(
+                           shape: RoundedRectangleBorder(
+                             side: BorderSide(color: Colors.white, width: 1.0),
+                             borderRadius: BorderRadius.circular(25),
+                           ),
+                           color: Colors.black54,
+                           elevation: 5,
+                           shadowColor: Colors.black12,
+                           child: Container(
+                             child: Center(
+                               child: Text(
+                                 '${city.cityConverter[index]['ar']}',
+                                 style: TextStyle(
+                                   fontSize: deviceWidth * 0.045,
+                                   color: Colors.white,
+                                 ),
+                               ),
+                             ),
+                           ),
+                         ),
+                       ),
+                     ),
+                   );
+                 },
                 ),
               ],
             ),

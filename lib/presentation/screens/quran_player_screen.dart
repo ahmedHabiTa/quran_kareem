@@ -3,23 +3,20 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hive/hive.dart';
-import 'package:quran_kareem/presentation/widgets/background_container.dart';
+import 'package:quran_kareem/network/local/shared_pref_helper.dart';
 import 'package:quran_kareem/presentation/widgets/custom_animated_text.dart';
 import 'package:quran_kareem/presentation/widgets/custom_quran_player_item.dart';
 import '../../main.dart';
-
 import '../../data/quran_data.dart';
-import 'first_screen.dart';
-import 'home_screen.dart';
 
-class MusicPlayerScreen extends StatefulWidget {
+class QuranPlayerScreen extends StatefulWidget {
   static const routeName = 'MusicPlayerScreen';
 
   @override
-  _MusicPlayerScreenState createState() => _MusicPlayerScreenState();
+  _QuranPlayerScreenState createState() => _QuranPlayerScreenState();
 }
 
-class _MusicPlayerScreenState extends State<MusicPlayerScreen>
+class _QuranPlayerScreenState extends State<QuranPlayerScreen>
     with WidgetsBindingObserver {
   Duration duration;
 
@@ -35,9 +32,9 @@ class _MusicPlayerScreenState extends State<MusicPlayerScreen>
 
   Box box = Hive.box<String>('myBox');
 
-  // String currentSong = '';
   String currentTitle = '';
   String musicUrl = '';
+
 
   @override
   void initState() {
@@ -54,6 +51,7 @@ class _MusicPlayerScreenState extends State<MusicPlayerScreen>
     } else if (box.get('playedOnce') == 'true') {
       currentTitle = box.get('currentTitle');
       musicUrl = box.get('url');
+
     }
   }
 
@@ -97,23 +95,23 @@ class _MusicPlayerScreenState extends State<MusicPlayerScreen>
     }
   }
 
-  // @override
-  // void dispose() {
-  //   super.dispose();
-  //   print('+++++++++++++dispose');
-  // }
-
-  void playMusic(String url) async {
+  void playMusic({
+    QuranData quranData,
+    int index,
+  }) async {
+   if(index == null){
+     index = SharedPrefsHelper.getData(key: 'index');
+   }
     if (isPlaying) {
       audioPlayer.pause();
-      int result = await audioPlayer.play(url);
+      int result = await audioPlayer.play(quranData.list[index]['url']);
       if (result == 1) {
         setState(() {
-          musicUrl = url;
+          musicUrl = quranData.list[index]['url'];
         });
       }
     } else if (!isPlaying) {
-      int result = await audioPlayer.play(url);
+      int result = await audioPlayer.play(quranData.list[index]['url']);
       if (result == 1) {
         setState(() {
           isPlaying = true;
@@ -132,10 +130,25 @@ class _MusicPlayerScreenState extends State<MusicPlayerScreen>
       });
     });
     audioPlayer.onPlayerCompletion.listen((event) {
-      setState(() {
-        position = Duration(seconds: 0);
-        isPlaying = false;
-      });
+      index = index + 1;
+      if (index < quranData.list.length) {
+        setState(() {
+         currentTitle = quranData.list[index]['title'];
+          isPlaying = true;
+          btmIcon = Icons.pause;
+        });
+        audioPlayer.play(quranData.list[index]['url']);
+        print('---------$index');
+      } else {
+        setState(() {
+          position = Duration(seconds: 0);
+          duration = Duration(seconds: 0);
+          isPlaying = false;
+          btmIcon = Icons.play_arrow;
+        });
+        print('finished');
+      }
+
     });
   }
 
@@ -144,126 +157,115 @@ class _MusicPlayerScreenState extends State<MusicPlayerScreen>
     audioPlayer.seek(duration);
   }
 
+  // void autoPlay({
+  //   int index,
+  //   int currentSurahIndex,
+  //   QuranData quranData,
+  // }) async {
+  //   if (index > 113) {
+  //     await audioPlayer.stop();
+  //     await audioPlayer.release();
+  //   } else {
+  //     await audioPlayer.play(quranData.list[currentSurahIndex]['title']);
+  //   }
+  // }
+
   @override
   Widget build(BuildContext context) {
     var deviceHeight = MediaQuery.of(context).size.height;
     var deviceWidth = MediaQuery.of(context).size.width;
     QuranData quranData = QuranData();
+
     return SafeArea(
       child: Scaffold(
         body: Stack(
           children: [
-            BackgroundContainer(
-              widget: SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const SizedBox(
-                      height: 15,
+            Container(
+              height: deviceHeight,
+            ),
+            SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SizedBox(
+                    height: 15,
+                  ),
+                  Center(
+                    child: Container(
+                      width: deviceWidth * 0.8,
+                      child: customAnimatedText(
+                          fontSize: deviceWidth * 0.05,
+                          height: deviceHeight * 0.05,
+                          width: deviceWidth,
+                          text: 'صوت القارئ : ياسين الجزائري',
+                          context: context),
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                  ),
+                  const SizedBox(
+                    height: 15,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(right: 18.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        IconButton(
-                          iconSize: deviceWidth < 370 ? 20 : 30,
-                          onPressed: () {
-                            Navigator.of(context).pushReplacementNamed(
-                              HomeScreen.routeName,
-                            );
-                          },
-                          icon:const Icon(
-                            Icons.arrow_back,
-                            color: Colors.white,
-                          ),
+                        const Icon(
+                          Icons.queue_music_outlined,
+                          color: Colors.white,
                         ),
-                        Spacer(),
-                        Container(
-                          width: deviceWidth * 0.8,
-                          child: customAnimatedText(
-                              fontSize: deviceWidth * 0.05,
-                              height: deviceHeight * 0.05,
-                              width: deviceWidth,
-                              text: 'صوت القارئ : ياسين الجزائري',
-                              context: context),
-                        ),
-                        Spacer(),
-                      ],
-                    ),
-                   const SizedBox(
-                      height: 15,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(right: 18.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                        const  Icon(
-                            Icons.queue_music_outlined,
-                            color: Colors.white,
-                          ),
-                          Text(
-                            ' قائمه السور',
-                            style: GoogleFonts.alice(
-                              textStyle: TextStyle(
-                                color: Colors.white,
-                                fontSize: deviceWidth < 370 ? 15 : 20,
-                                fontWeight: FontWeight.bold,
-                              ),
+                        Text(
+                          ' قائمه السور',
+                          style: GoogleFonts.alice(
+                            textStyle: TextStyle(
+                              color: Colors.white,
+                              fontSize: deviceWidth < 370 ? 15 : 20,
+                              fontWeight: FontWeight.bold,
                             ),
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
-                    Container(
-                      height: deviceHeight * 0.6,
-                      child: ListView.builder(
-                        shrinkWrap: true,
-                        itemBuilder: (context, index) {
-                          return customQuranPlayerItem(
-                            context: context,
-                            title: quranData.list[index]['title'],
-                            onTap: () async {
-                              setState(() {
-                                currentTitle = quranData.list[index]['title'];
-                                musicUrl = quranData.list[index]['url'];
-                                // currentSong = url ;
-                              });
-                              playMusic(musicUrl);
-                              box.put('playedOnce', 'true');
-                              box.put('currentTitle', currentTitle);
-                              box.put('url', musicUrl);
-                            },
-                          );
-                        },
-                        itemCount: quranData.list.length,
-                      ),
+                  ),
+                  Container(
+                    height: deviceHeight * 0.53,
+                    child: ListView.builder(
+                      shrinkWrap: true,
+                      itemBuilder: (context, index) {
+                        return customQuranPlayerItem(
+                          context: context,
+                          title: quranData.list[index]['title'],
+                          onTap: () async {
+                            setState(() {
+                              currentTitle = quranData.list[index]['title'];
+                              musicUrl = quranData.list[index]['url'];
+                            });
+                            playMusic(quranData: quranData, index: index);
+                            box.put('playedOnce', 'true');
+                            box.put('currentTitle', currentTitle);
+                            box.put('url', musicUrl);
+                            await SharedPrefsHelper.saveData(
+                                key: 'index', value: index);
+                          },
+                        );
+                      },
+                      itemCount: quranData.list.length,
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
             Positioned(
               bottom: 0,
-              // right: deviceWidth * 0.07,
-              // left: deviceWidth * 0.07,
               child: Container(
                 width: deviceWidth,
                 height: deviceWidth < 370
-                    ? deviceHeight * 0.25
-                    : deviceHeight * 0.2,
+                    ? deviceHeight * 0.2
+                    : deviceHeight * 0.17,
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(35),
-                      topRight: Radius.circular(35)),
-                  gradient: LinearGradient(
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                    colors: [
-                      Colors.blue[900],
-                      Colors.black54,
-                    ],
-                  ),
-                ),
+                    borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(35),
+                        topRight: Radius.circular(35)),
+                    color: Colors.black38),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
@@ -280,7 +282,7 @@ class _MusicPlayerScreenState extends State<MusicPlayerScreen>
                       ),
                     ),
                     Container(
-                      height: 30,
+                      height: 20,
                       child: Slider.adaptive(
                         // onChangeEnd: (value){
                         //   audioPlayer.;
@@ -299,18 +301,12 @@ class _MusicPlayerScreenState extends State<MusicPlayerScreen>
                       children: [
                         Padding(
                           padding: const EdgeInsets.only(left: 10.0),
-                          child: Text(
-                            position.inSeconds.toDouble().toString(),
-                            style: TextStyle(color: Colors.white),
-                          ),
+                          child: _buildPositionTime(),
                         ),
                         Spacer(),
                         Padding(
                           padding: const EdgeInsets.only(right: 10.0),
-                          child: Text(
-                            duration.inSeconds.toDouble().toString(),
-                            style: TextStyle(color: Colors.white),
-                          ),
+                          child: _buildDurationTime(),
                         ),
                       ],
                     ),
@@ -365,7 +361,7 @@ class _MusicPlayerScreenState extends State<MusicPlayerScreen>
                               : () {
                                   if (box.get('playedOnce') == 'true' &&
                                       isPlaying == false) {
-                                    playMusic(musicUrl);
+                                    playMusic(quranData: quranData);
                                   } else {
                                     if (isPlaying) {
                                       audioPlayer.pause();
@@ -392,6 +388,28 @@ class _MusicPlayerScreenState extends State<MusicPlayerScreen>
           ],
         ),
       ),
+    );
+  }
+
+  Widget _buildPositionTime() {
+    String twoDigits(int number) => number.toString().padLeft(2, '0');
+    final hours = twoDigits(position.inHours.remainder(60));
+    final minutes = twoDigits(position.inMinutes.remainder(60));
+    final seconds = twoDigits(position.inSeconds.remainder(60));
+    return Text(
+      '$hours:$minutes:$seconds',
+      style: TextStyle(color: Colors.white),
+    );
+  }
+
+  Widget _buildDurationTime() {
+    String twoDigits(int number) => number.toString().padLeft(2, '0');
+    final hours = twoDigits(duration.inHours.remainder(60));
+    final minutes = twoDigits(duration.inMinutes.remainder(60));
+    final seconds = twoDigits(duration.inSeconds.remainder(60));
+    return Text(
+      '$hours:$minutes:$seconds',
+      style: TextStyle(color: Colors.white),
     );
   }
 }

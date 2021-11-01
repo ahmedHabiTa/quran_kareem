@@ -3,13 +3,13 @@ import 'package:fluttertoast/fluttertoast.dart';
 class Constants{
   static Constants get(context) => Constants();
   // ignore: missing_return
-  Future<bool> showToast(String toastMsg){
-    Fluttertoast.showToast(
-        msg: toastMsg,
+  Future<bool> showToast({ String msg, Color color}){
+  return  Fluttertoast.showToast(
+        msg: msg,
         toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.BOTTOM,
         timeInSecForIosWeb: 1,
-        backgroundColor: Colors.redAccent,
+        backgroundColor: color,
         textColor: Colors.white,
         fontSize: 16.0
     );

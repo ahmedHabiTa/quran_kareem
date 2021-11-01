@@ -40,7 +40,15 @@ dependencies:
   shimmer: ^1.1.1
   data_connection_checker: ^0.3.4
   quran: ^1.0.4
-
+  dio: ^4.0.0
+  shared_preferences: ^2.0.5
+  scrollable_positioned_list: ^0.2.2
+  provider: ^6.0.1
+  showcaseview: ^1.1.2
+  flutter_local_notifications: ^9.0.1
+  rxdart: ^0.27.2
+  webview_flutter: ^2.1.2
+  flutter_launcher_icons: ^0.9.2
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -50,7 +58,10 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/images/quranRail.png"
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
@@ -74,6 +85,14 @@ flutter:
     - assets/images/quranRail.png
     - assets/images/grad_logo.png
     - assets/images/estkhfaar.gif
+    - assets/images/childwash.jpg
+    - assets/images/childpray.jpg
+    - assets/images/fatiha.jpg
+    - assets/images/arkaneslam.jpg
+    - assets/images/berwalden.jpg
+    - assets/images/maghreb.jpg
+    - assets/images/aisha.jpg
+    - assets/images/duhr.jpg
 
 
 

@@ -7,7 +7,7 @@ class CustomCard extends StatelessWidget {
   final String routeName;
 
   const CustomCard({
-   @required this.title,
+    @required this.title,
     @required this.routeName,
   });
 
@@ -23,13 +23,15 @@ class CustomCard extends StatelessWidget {
         elevation: 8,
         shadowColor: Colors.grey[900],
         child: GestureDetector(
-          onTap: () => Navigator.of(context)
-              .pushReplacementNamed(routeName),
+          onTap: () =>
+    Navigator.pushNamed(context, routeName),
           child: Container(
             width: deviceWidth * 0.7,
             height: deviceHeight * 0.06,
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(25), color: Colors.black45),
+              borderRadius: BorderRadius.circular(25),
+              color: Colors.black45,
+            ),
             child: Center(
               child: Text(
                 title,

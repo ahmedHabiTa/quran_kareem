@@ -1,53 +1,79 @@
-class SurahModel {
-  final List<Surah> surahs;
 
-  SurahModel({this.surahs});
+import 'dart:convert';
 
-  factory SurahModel.fromJSON(Map<String, dynamic> json) {
-    Iterable surahlist = json['data']['surahs'];
-    List<Surah> surahsList = surahlist.map((i) => Surah.fromJSON(i)).toList();
+QuranMp3Model quranMp3ModelFromJson(String str) =>
+    QuranMp3Model.fromJson(json.decode(str));
 
-    return SurahModel(surahs: surahsList);
-  }
+String quranMp3ModelToJson(QuranMp3Model data) => json.encode(data.toJson());
+
+class QuranMp3Model {
+  QuranMp3Model({
+    this.code,
+    this.status,
+    this.data,
+  });
+
+  int code;
+  String status;
+  Data data;
+
+  factory QuranMp3Model.fromJson(Map<String, dynamic> json) => QuranMp3Model(
+        code: json["code"],
+        status: json["status"],
+        data: Data.fromJson(json["data"]),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "code": code,
+        "status": status,
+        "data": data.toJson(),
+      };
+}
+
+class Data {
+  Data({
+    this.surahs,
+  });
+
+  List<Surah> surahs;
+
+  factory Data.fromJson(Map<String, dynamic> json) => Data(
+        surahs: List<Surah>.from(json["surahs"].map((x) => Surah.fromJson(x))),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "surahs": List<dynamic>.from(surahs.map((x) => x.toJson())),
+      };
 }
 
 class Surah {
-  final int number;
-  final String name;
-  final String englishName;
-  final String englishNameTranslation;
-  final String revelationType;
-  final List<Ayat> ayahs;
+  Surah({
+    this.ayahs,
+  });
 
-  Surah(
-      {this.number,
-      this.revelationType,
-      this.name,
-      this.ayahs,
-      this.englishName,
-      this.englishNameTranslation});
+  List<Ayah> ayahs;
 
-  factory Surah.fromJSON(Map<String, dynamic> json) {
-    Iterable ayahs = json['ayahs'];
-    List<Ayat> ayahsList = ayahs.map((e) => Ayat.fromJSON((e))).toList();
+  factory Surah.fromJson(Map<String, dynamic> json) => Surah(
+        ayahs: List<Ayah>.from(json["ayahs"].map((x) => Ayah.fromJson(x))),
+      );
 
-    return Surah(
-        name: json['name'],
-        number: json['number'],
-        englishName: json['englishName'],
-        revelationType: json['revelationType'],
-        englishNameTranslation: json['englishNameTranslation'],
-        ayahs: ayahsList);
-  }
+  Map<String, dynamic> toJson() => {
+        "ayahs": List<dynamic>.from(ayahs.map((x) => x.toJson())),
+      };
 }
 
-class Ayat {
-  final String text;
-  final int number;
-  Ayat({this.text, this.number});
+class Ayah {
+  Ayah({
+    this.audio,
+  });
 
-  factory Ayat.fromJSON(Map<String, dynamic> json) {
-    return Ayat(
-      text: json['text'], number: json['numberInSurah']);
-  }
+  String audio;
+
+  factory Ayah.fromJson(Map<String, dynamic> json) => Ayah(
+        audio: json["audio"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "audio": audio,
+      };
 }

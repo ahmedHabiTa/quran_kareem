@@ -54,35 +54,14 @@ class _PrayTimesState extends State<PrayTimes> {
                       SizedBox(
                         height: 15,
                       ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          IconButton(
-                            iconSize: deviceWidth < 370
-                                ? deviceWidth * 0.06
-                                : deviceWidth * 0.075,
-                            onPressed: () {
-                              Navigator.of(context).pushReplacementNamed(
-                                CityCategoryScreen.routeName,
-                              );
-                            },
-                            icon: Icon(
-                              Icons.arrow_back,
-                              color: Colors.white,
-                            ),
-                          ),
-                          Spacer(),
-                          Container(
-                            width: deviceWidth * 0.6,
-                            child: customAnimatedText(
-                                fontSize: deviceWidth * 0.05,
-                                height: deviceHeight * 0.05,
-                                width: deviceWidth,
-                                text: '  توقيت : ${cityName.cityArabic}',
-                                context: context),
-                          ),
-                          Spacer(),
-                        ],
+                      Container(
+                        width: deviceWidth * 0.6,
+                        child: customAnimatedText(
+                            fontSize: deviceWidth * 0.05,
+                            height: deviceHeight * 0.05,
+                            width: deviceWidth,
+                            text: '  توقيت : ${cityName.cityArabic}',
+                            context: context),
                       ),
                       SizedBox(
                         height: 30,

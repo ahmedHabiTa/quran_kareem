@@ -2,12 +2,12 @@ import 'dart:async';
 
 import 'package:animated_text/animated_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:quran_kareem/Animation/FadeAnimation.dart';
 
-import 'first_screen.dart';
+import '../../notifications.dart';
 import 'home_screen.dart';
-
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -17,10 +17,26 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
-    displaySplash();
     super.initState();
+    displaySplash();
+    allNotifications();
   }
-  void displaySplash() {
+  allNotifications() async {
+    await localNotifyManager.repeatedNotification(body: 'صلي علي محمد');
+    await localNotifyManager.showEveryDayAtATimeNotification(
+        time: Time(0, 0, 0), body: 'لا تنسي قيام الليل');
+    await localNotifyManager.showEveryDayAtATimeNotification(
+        time: Time(12, 0, 0), body: 'هل قرأت القران اليوم ؟');
+    await localNotifyManager.showEveryDayAtATimeNotification(
+        time: Time(15, 0, 0), body: 'أبدا رحله ال 100 استغفار اليومي الان');
+    await localNotifyManager.showWeeklyAtDayAtTimeNotification(
+        body: 'لا تنسي قراءه سوره الكهف', day: Day.friday, time: Time(14, 0, 0));
+    await localNotifyManager.showWeeklyAtDayAtTimeNotification(
+        body: 'لا تنسي صيام الاثنين', day: Day.sunday, time: Time(23, 0, 0));
+    await localNotifyManager.showWeeklyAtDayAtTimeNotification(
+        body: 'لا تنسي صيام الخميس', day: Day.wednesday, time: Time(23, 0, 0));
+  }
+  void displaySplash() async {
     Timer(Duration(seconds: 4), () async {
       Navigator.pushReplacementNamed(context, HomeScreen.routeName);
     });

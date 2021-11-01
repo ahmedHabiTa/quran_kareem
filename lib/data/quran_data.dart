@@ -14,7 +14,7 @@ class QuranData{
     },
     {
       'title': 'البقره',
-      'url': 'https://server11.mp3quran.net/qari/002.mp3',
+      'url': 'https://server11.mp3quran.net/qari/002.mp3'
     },
     {
       'title': 'آل عمران',

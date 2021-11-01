@@ -12,7 +12,7 @@ Widget customSurahNameItem(
     padding: const EdgeInsets.only(right: 20, left: 20, bottom: 10),
     child: Container(
       width: deviceWidth * 0.6,
-      height: deviceHeight * 0.1,
+      height: deviceHeight * 0.08,
       decoration: BoxDecoration(
         color: Colors.black38,
         borderRadius: BorderRadius.circular(30),

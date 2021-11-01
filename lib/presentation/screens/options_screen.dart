@@ -1,23 +1,29 @@
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
+
+import 'package:quran_kareem/presentation/screens/azkar_screen.dart';
 import 'package:quran_kareem/presentation/screens/city_category_screen.dart';
 import 'package:quran_kareem/presentation/screens/daily_routine.dart';
-import 'package:quran_kareem/presentation/screens/quran_player_screen.dart';
 import 'package:quran_kareem/presentation/screens/reader_screen.dart';
 import 'package:quran_kareem/presentation/widgets/custom_animated_text.dart';
+
 import 'package:quran_kareem/presentation/widgets/custom_card.dart';
 
-class SecondScreen extends StatefulWidget {
+import 'children_screen.dart';
+
+class OptionsScreen extends StatefulWidget {
   @override
-  _SecondScreenState createState() => _SecondScreenState();
+  _OptionsScreenState createState() => _OptionsScreenState();
 }
 
-class _SecondScreenState extends State<SecondScreen> {
-
+class _OptionsScreenState extends State<OptionsScreen>
+    with AutomaticKeepAliveClientMixin<OptionsScreen> {
+  bool get wantKeepAlive => true;
+  bool isSelected = false;
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     var deviceHeight = MediaQuery.of(context).size.height;
     var deviceWidth = MediaQuery.of(context).size.width;
     return Stack(
@@ -61,27 +67,33 @@ class _SecondScreenState extends State<SecondScreen> {
           left: 0.0,
         ),
         Positioned(
-          top: deviceHeight * 0.3,
-          child: Center(
-            child: Column(
-              children: [
-                CustomCard(
-                  title: 'مواعيد الصلاه',
-                  routeName: CityCategoryScreen.routeName,
-                ),
-                CustomCard(
-                  title: 'القراءه',
-                  routeName: ReaderScreen.routeName,
-                ),
-                CustomCard(
-                  title: 'الاستماع',
-                  routeName: MusicPlayerScreen.routeName,
-                ),
-                CustomCard(
-                  title: 'الاستغفار اليومي',
-                  routeName: DailyRoutine.routeName,
-                ),
-              ],
+          top: deviceHeight * 0.24,
+          child: SingleChildScrollView(
+            child: Container(
+              child: Column(
+                children: [
+                  CustomCard(
+                    title: 'مواعيد الصلاه',
+                    routeName: CityCategoryScreen.routeName,
+                  ),
+                  CustomCard(
+                    title: 'القراءه',
+                    routeName: ReaderScreen.routeName,
+                  ),
+                  CustomCard(
+                    title: 'الاذكار',
+                    routeName: AzkarScreen.routeName,
+                  ),
+                  CustomCard(
+                    title: 'الاستغفار اليومي',
+                    routeName: DailyRoutine.routeName,
+                  ),
+                  CustomCard(
+                    title: 'الاسلام للأطفال مع زكريا',
+                    routeName: ChildrenScreen.routeName,
+                  ),
+                ],
+              ),
             ),
           ),
         ),
@@ -92,13 +104,12 @@ class _SecondScreenState extends State<SecondScreen> {
           child: customAnimatedText(
             fontSize: deviceWidth * 0.05,
             text:
-            'إِنَّ اللَّهَ وَمَلائِكَتَهُ يُصَلُّونَ عَلَى النَّبِيِّ يَا أَيُّهَا الَّذِينَ آمَنُوا صَلُّوا عَلَيْهِ وَسَلِّمُوا تَسْلِيمًا',
+                'إِنَّ اللَّهَ وَمَلائِكَتَهُ يُصَلُّونَ عَلَى النَّبِيِّ يَا أَيُّهَا الَّذِينَ آمَنُوا صَلُّوا عَلَيْهِ وَسَلِّمُوا تَسْلِيمًا',
             height: deviceHeight * 0.09,
             width: deviceWidth,
             context: context,
           ),
         ),
-
       ],
     );
   }

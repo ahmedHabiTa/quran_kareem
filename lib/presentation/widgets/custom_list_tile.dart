@@ -3,34 +3,28 @@ import 'package:flutter/material.dart';
 
 Widget customListTile({
   context,
-  @required String routeName,
+  @required Function onTap,
   @required String title,
 }) {
   var deviceHeight = MediaQuery.of(context).size.height;
   var deviceWidth = MediaQuery.of(context).size.width;
   return Card(
     elevation: 10,
-    shadowColor: Colors.white,
+    shadowColor: Colors.grey[900],
     shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.only(
-        topRight: Radius.elliptical(150, 50),
-        bottomRight: Radius.elliptical(150, 50),
-      ),
+      borderRadius: BorderRadius.circular(30),
     ),
     color: Colors.transparent,
     margin: EdgeInsets.all(2),
     child: GestureDetector(
-      onTap: () => Navigator.of(context).pushNamed(routeName),
+      onTap: onTap,
       child: Container(
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.only(
-            topRight: Radius.elliptical(150, 50),
-            bottomRight: Radius.elliptical(150, 50),
-          ),
-          color: Colors.black87,
+          borderRadius: BorderRadius.circular(30),
+          color: Colors.black45,
         ),
-        height: deviceHeight * 0.08,
-        width: deviceWidth * 0.65,
+        height: deviceHeight * 0.05,
+        width: deviceWidth * 0.8,
         child: Directionality(
           textDirection: TextDirection.rtl,
           child: Center(

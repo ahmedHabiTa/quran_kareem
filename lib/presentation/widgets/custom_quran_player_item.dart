@@ -8,7 +8,7 @@ Widget customQuranPlayerItem({String title, Function onTap, context}) {
     padding: const EdgeInsets.only(right: 20, left: 20, bottom: 10),
     child: Container(
       width: deviceWidth * 0.6,
-      height: deviceHeight * 0.1,
+      height: deviceHeight * 0.08,
       decoration: BoxDecoration(
         color: Colors.black38,
         borderRadius: BorderRadius.circular(30),
@@ -27,11 +27,10 @@ Widget customQuranPlayerItem({String title, Function onTap, context}) {
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
                     colors: [
-                      Colors.grey[100],
-                      Colors.grey[700],
-                      Colors.grey[900],
-                      Colors.grey[700],
-                      Colors.grey[100],
+                      Colors.indigo[100],
+                      Colors.indigo[700],
+                      Colors.indigo[700],
+                      Colors.indigo[100],
                     ],
                   ),
                   shape: BoxShape.circle),
