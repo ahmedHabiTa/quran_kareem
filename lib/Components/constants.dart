@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 class Constants{
   static Constants get(context) => Constants();
-  // ignore: missing_return
+
   Future<bool> showToast({ String msg, Color color}){
   return  Fluttertoast.showToast(
         msg: msg,

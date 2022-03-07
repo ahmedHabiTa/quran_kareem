@@ -1,15 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-
 import 'package:quran_kareem/presentation/screens/azkar_screen.dart';
 import 'package:quran_kareem/presentation/screens/city_category_screen.dart';
 import 'package:quran_kareem/presentation/screens/daily_routine.dart';
 import 'package:quran_kareem/presentation/screens/reader_screen.dart';
 import 'package:quran_kareem/presentation/widgets/custom_animated_text.dart';
-
 import 'package:quran_kareem/presentation/widgets/custom_card.dart';
-
-import 'children_screen.dart';
+import 'compass_screen.dart';
 
 class OptionsScreen extends StatefulWidget {
   @override
@@ -89,9 +86,13 @@ class _OptionsScreenState extends State<OptionsScreen>
                     routeName: DailyRoutine.routeName,
                   ),
                   CustomCard(
-                    title: 'الاسلام للأطفال مع زكريا',
-                    routeName: ChildrenScreen.routeName,
+                    title: 'اتجاه القبله',
+                    routeName: CompassScreen.routeName,
                   ),
+                  // CustomCard(
+                  //   title: 'الاسلام للأطفال مع زكريا',
+                  //   routeName: ChildrenScreen.routeName,
+                  // ),
                 ],
               ),
             ),

@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:quran_kareem/Animation/FadeAnimation.dart';
-
 import 'package:quran_kareem/data/quran_data.dart';
 import 'package:quran_kareem/presentation/screens/ayat_screen.dart';
 import 'package:quran_kareem/presentation/widgets/background_container.dart';
 import 'package:quran_kareem/presentation/widgets/custom_animated_text.dart';
+import 'package:quran_kareem/presentation/widgets/custom_list_tile.dart';
 import 'package:quran_kareem/presentation/widgets/custom_surah_name_item.dart';
-import 'package:quran_kareem/presentation/widgets/custom_text_field.dart';
 
 // class AyatDetails {
 //   final String surahName;
@@ -37,47 +35,50 @@ class _ReaderScreenState extends State<ReaderScreen> {
     final quranData = QuranData();
     return SafeArea(
       child: Scaffold(
-        body: BackgroundContainer(
-          widget: SingleChildScrollView(
-            physics: AlwaysScrollableScrollPhysics(),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                const SizedBox(
-                  height: 15,
-                ),
-                Container(
-                  width: deviceWidth * 0.4,
-                  child: customAnimatedText(
-                      fontSize: deviceWidth * 0.05,
-                      height: deviceHeight * 0.05,
-                      width: deviceWidth,
-                      text: ' قائمه السور',
-                      context: context),
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                  ListView.builder(
-                    physics: NeverScrollableScrollPhysics(),
-                    shrinkWrap: true,
-                    itemBuilder: (context, index) {
-                      return customSurahNameItem(
-                        context: context,
-                        surahName: '${quranData.list[index]['title']}',
-                        onTap: () async {
-                          Navigator.of(context).pushNamed(
-                              AyatScreen.routeName,
-                              arguments: index);
-                        },
-                        surahNumber: '${index + 1}',
-                      );
-                    },
-                    itemCount: quranData.list.length,
-                  ),
-              ],
+        body: Stack(
+          children: [
+            Container(
+              height: deviceHeight,
+              width: deviceWidth,
+              color: Theme.of(context).canvasColor,
             ),
-          ),
+            Positioned(
+              top: deviceHeight * 0.02,
+              left: deviceWidth * 0.06,
+              right: deviceWidth * 0.06,
+              child: customAnimatedText(
+                  height: deviceHeight * 0.05,
+                  width: deviceWidth,
+                  text: 'قائمه السور',
+                  context: context,
+                  fontSize: deviceWidth * 0.05),
+            ),
+            Positioned(
+              top: deviceHeight * 0.09,
+              left: deviceWidth * 0.06,
+              right: deviceWidth * 0.06,
+              child: SizedBox(
+                height: deviceHeight*0.82,
+                child: ListView.builder(
+                  physics: AlwaysScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  itemBuilder: (context, index) {
+                    return Padding(
+                      padding: const EdgeInsets.only(bottom:12.0),
+                      child: customListTile(
+                          context: context,
+                          title: '${quranData.list[index]['title']}' ,
+                          onTap: () async {
+                            Navigator.of(context)
+                                .pushNamed(AyatScreen.routeName, arguments: index);
+                          }),
+                    );
+                  },
+                  itemCount: quranData.list.length,
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );

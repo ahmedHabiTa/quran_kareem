@@ -1,18 +1,17 @@
 import 'dart:io';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hive/hive.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:quran_kareem/controllers/provider.dart';
-
 import 'package:quran_kareem/presentation/screens/ayat_screen.dart';
 import 'package:quran_kareem/presentation/screens/azkar_details_screen.dart';
 import 'package:quran_kareem/presentation/screens/azkar_muslim_screen.dart';
 import 'package:quran_kareem/presentation/screens/children_screen.dart';
 import 'package:quran_kareem/presentation/screens/city_category_screen.dart';
+import 'package:quran_kareem/presentation/screens/compass_screen.dart';
 import 'package:quran_kareem/presentation/screens/daily_routine.dart';
 import 'package:quran_kareem/presentation/screens/azkar_screen.dart';
 import 'package:quran_kareem/presentation/screens/home_screen.dart';
@@ -24,7 +23,6 @@ import 'package:quran_kareem/presentation/screens/web_view_details.dart';
 import 'package:showcaseview/showcaseview.dart';
 
 import 'network/local/shared_pref_helper.dart';
-import '../../notifications.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await SharedPrefsHelper.init();
@@ -92,6 +90,7 @@ class MyApp extends StatelessWidget {
                 AzkarDetailsScreen.routeName: (context) => AzkarDetailsScreen(),
                 ChildrenScreen.routeName: (context) => ChildrenScreen(),
                 WebViewDetails.routeName: (context) => WebViewDetails(),
+                CompassScreen.routeName: (context) => CompassScreen(),
                 AzkarMuslimDetailsScreen.routeName: (context) =>
                     AzkarMuslimDetailsScreen(),
               },

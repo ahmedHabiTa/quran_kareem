@@ -49,7 +49,10 @@ dependencies:
   rxdart: ^0.27.2
   webview_flutter: ^2.1.2
   flutter_launcher_icons: ^0.9.2
-
+  flutter_qiblah: ^2.0.2
+  flutter_svg: ^0.21.0-nullsafety.0
+  google_maps_flutter: ^2.0.1
+  geolocator: ^7.0.1
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -75,26 +78,7 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-    - assets/images/clock.png
-    - assets/images/light-1.png
-    - assets/images/light-2.png
-    - assets/images/logo.png
-    - assets/images/galaxy.jpg
-    - assets/images/pexels-photo-2486168.jpeg
-    - assets/images/Green-Tropical-Plant-Wallpaper-Mural-Plain.webp
-    - assets/images/quranRail.png
-    - assets/images/grad_logo.png
-    - assets/images/estkhfaar.gif
-    - assets/images/childwash.jpg
-    - assets/images/childpray.jpg
-    - assets/images/fatiha.jpg
-    - assets/images/arkaneslam.jpg
-    - assets/images/berwalden.jpg
-    - assets/images/maghreb.jpg
-    - assets/images/aisha.jpg
-    - assets/images/duhr.jpg
-
-
+    - assets/images/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

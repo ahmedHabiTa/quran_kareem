@@ -19,7 +19,6 @@ class _DailyRoutineState extends State<DailyRoutine> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
     currentIndex = 0;
     _counter = 3;

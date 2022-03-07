@@ -1,13 +1,10 @@
 import 'package:connectivity/connectivity.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:quran_kareem/Components/constants.dart';
 import 'package:quran_kareem/data/city_data.dart';
 import 'package:quran_kareem/presentation/screens/praying_time_table.dart';
 import 'package:quran_kareem/presentation/widgets/custom_animated_text.dart';
-
-import 'azkar_screen.dart';
-import 'home_screen.dart';
+import 'package:quran_kareem/presentation/widgets/custom_list_tile.dart';
 
 class CityArguments {
   final String cityArabic;
@@ -29,88 +26,62 @@ class CityCategoryScreen extends StatelessWidget {
     City city = City();
     return SafeArea(
       child: Scaffold(
-        body: SingleChildScrollView(
-          physics: AlwaysScrollableScrollPhysics(),
-          child: Container(
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                colorFilter: ColorFilter.mode(
-                  Colors.blue[900],
-                  BlendMode.multiply,
-                ),
-                fit: BoxFit.fill,
-                image: AssetImage(
-                    'assets/images/Green-Tropical-Plant-Wallpaper-Mural-Plain.webp'),
-              ),
+        body: Stack(
+          children: [
+            Container(
+              height: deviceHeight,
+              width: deviceWidth,
+              color: Theme.of(context).canvasColor,
             ),
-            child: Column(
-              children: [
-               const SizedBox(
-                  height: 15,
-                ),
-                Container(
-                  width: deviceWidth * 0.6,
-                  child: customAnimatedText(
-                      fontSize: deviceWidth * 0.05,
-                      height: deviceHeight * 0.05,
-                      width: deviceWidth,
-                      text: 'اختر مدينتك',
-                      context: context),
-                ),
-                ListView.builder(
-                  physics: NeverScrollableScrollPhysics(),
+            Positioned(
+              top: deviceHeight * 0.02,
+              left: deviceWidth * 0.06,
+              right: deviceWidth * 0.06,
+              child: customAnimatedText(
+                  height: deviceHeight * 0.05,
+                  width: deviceWidth,
+                  text: 'اختر مدينتك',
+                  context: context,
+                  fontSize: deviceWidth * 0.05),
+            ),
+            Positioned(
+              top: deviceHeight * 0.09,
+              left: deviceWidth * 0.06,
+              right: deviceWidth * 0.06,
+              child: SizedBox(
+                height: deviceHeight*0.82,
+                child: ListView.builder(
+                  physics: AlwaysScrollableScrollPhysics(),
                   shrinkWrap: true,
                   itemCount: city.cityConverter.length,
-                 itemBuilder: (context,index){
-                   return Padding(
-                     padding: const EdgeInsets.all(8.0),
-                     child: GestureDetector(
-                       onTap: ()async{
-                         var connectionState =
-                             await Connectivity().checkConnectivity();
-                         if (connectionState == ConnectivityResult.none) {
-                           Constants.get(context)
-                               .showToast(msg:'خطأ الاتصال بالانترنت');
-                         }else{
-                           Navigator.of(context).pushNamed(
-                             PrayTimes.routeName,
-                             arguments: CityArguments(
-                                 cityArabic: city.cityConverter[index]['ar'],
-                                 cityEnglish: city.cityConverter[index]
-                                 ['en']),
-                           );
-                         }
-                       },
-                       child: Container(
-                         height: 50,
-                         child: Card(
-                           shape: RoundedRectangleBorder(
-                             side: BorderSide(color: Colors.white, width: 1.0),
-                             borderRadius: BorderRadius.circular(25),
-                           ),
-                           color: Colors.black54,
-                           elevation: 5,
-                           shadowColor: Colors.black12,
-                           child: Container(
-                             child: Center(
-                               child: Text(
-                                 '${city.cityConverter[index]['ar']}',
-                                 style: TextStyle(
-                                   fontSize: deviceWidth * 0.045,
-                                   color: Colors.white,
-                                 ),
-                               ),
-                             ),
-                           ),
-                         ),
-                       ),
-                     ),
-                   );
-                 },
+                  itemBuilder: (context, index) {
+                    return Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: customListTile(
+                        title: '${city.cityConverter[index]['ar']}',
+                        context: context,
+                        onTap: ()async{
+                          var connectionState =
+                          await Connectivity().checkConnectivity();
+                          if (connectionState == ConnectivityResult.none) {
+                            Constants.get(context)
+                                .showToast(msg: 'خطأ الاتصال بالانترنت');
+                          } else {
+                            Navigator.of(context).pushNamed(
+                              PrayTimes.routeName,
+                              arguments: CityArguments(
+                                  cityArabic: city.cityConverter[index]['ar'],
+                                  cityEnglish: city.cityConverter[index]['en']),
+                            );
+                          }
+                        }
+                      ),
+                    );
+                  },
                 ),
-              ],
-            ),
-          ),
+              ),
+            )
+          ],
         ),
       ),
     );

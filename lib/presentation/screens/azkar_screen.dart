@@ -44,7 +44,7 @@ class _AzkarScreenState extends State<AzkarScreen> {
               left: deviceWidth * 0.06,
               right: deviceWidth * 0.06,
               child: Container(
-                height: deviceHeight*0.85,
+                height: deviceHeight*0.8,
                 child: SingleChildScrollView(
                   child: Column(
                     children: [
@@ -368,6 +368,9 @@ class _AzkarScreenState extends State<AzkarScreen> {
                         detailsUrl: 'كيف كان النبي يسبح؟',
                         url: "http://www.hisnmuslim.com/api/ar/131.json",
                         title: 'كيف كان النبي يسبح؟',
+                      ),
+                      const SizedBox(
+                        height: 10,
                       ),
                     ],
                   ),

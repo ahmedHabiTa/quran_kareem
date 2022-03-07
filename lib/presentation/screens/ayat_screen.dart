@@ -19,7 +19,7 @@ class _AyatScreenState extends State<AyatScreen> {
   final ItemScrollController itemScrollController = ItemScrollController();
 
   final ItemPositionsListener itemPositionsListener =
-      ItemPositionsListener.create();
+  ItemPositionsListener.create();
 
   final key1 = GlobalKey();
 
@@ -27,18 +27,18 @@ class _AyatScreenState extends State<AyatScreen> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback(
-      (_) {
-       showCase();
+          (_) {
+        showCase();
       },
     );
   }
-void showCase()async{
+  void showCase()async{
     if(SharedPrefsHelper.getData(key: 'showCase')==null){
       ShowCaseWidget.of(context).startShowCase([key1]);
-    await  SharedPrefsHelper.saveData(key: 'showCase', value: true);
+      await  SharedPrefsHelper.saveData(key: 'showCase', value: true);
     }
-}
-@override
+  }
+  @override
   void dispose() {
 
     super.dispose();
@@ -52,21 +52,21 @@ void showCase()async{
         return SafeArea(
           child: Scaffold(
             floatingActionButton: SharedPrefsHelper.getData(
-                            key: 'currentAyaIndex') !=
-                        null &&
-                    surahIndex == SharedPrefsHelper.getData(key: 'surahIndex')
+                key: 'currentAyaIndex') !=
+                null &&
+                surahIndex == SharedPrefsHelper.getData(key: 'surahIndex')
                 ? FloatingActionButton(
-                    backgroundColor: Colors.blue[900],
-                    child: Icon(Icons.arrow_downward_sharp),
-                    onPressed: () {
-                      itemScrollController.scrollTo(
-                        index:
-                            SharedPrefsHelper.getData(key: 'currentAyaIndex'),
-                        duration: Duration(seconds: 2),
-                        curve: Curves.easeInOutCubic,
-                      );
-                    },
-                  )
+              backgroundColor: Colors.blue[900],
+              child: Icon(Icons.arrow_downward_sharp),
+              onPressed: () {
+                itemScrollController.scrollTo(
+                  index:
+                  SharedPrefsHelper.getData(key: 'currentAyaIndex'),
+                  duration: Duration(seconds: 2),
+                  curve: Curves.easeInOutCubic,
+                );
+              },
+            )
                 : Container(),
             backgroundColor: Colors.white,
             body: SingleChildScrollView(
@@ -149,15 +149,15 @@ void showCase()async{
                           //   value: index,
                           // );
                           tileColor: SharedPrefsHelper.getData(
-                                          key: 'currentAyaIndex') ==
-                                      index &&
-                                  surahIndex ==
-                                      SharedPrefsHelper.getData(
-                                          key: 'surahIndex')
+                              key: 'currentAyaIndex') ==
+                              index &&
+                              surahIndex ==
+                                  SharedPrefsHelper.getData(
+                                      key: 'surahIndex')
                               ? Colors.blue[700]
                               : Colors.white,
                           title: Text(
-                            '${quran.getVerse(surahIndex + 1, index + 1, verseEndSymbol: true)} ',
+                            '${quran.getVerse(surahIndex + 1, index + 1, verseEndSymbol: true)}',
                             style: TextStyle(
                               color: Colors.black,
                               fontSize: 22,
